@@ -13,6 +13,7 @@ GraphApi.Controller = {
 
   getSVGContainer: function(graphId, graphHeight, graphWidth){
 
+    $("#" + graphId).empty();
     return d3.select("#" + graphId)
       .append("svg")
       .attr("height", graphHeight)
