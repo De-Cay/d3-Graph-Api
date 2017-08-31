@@ -169,16 +169,20 @@ GraphApi.View = {
       .style("padding", "5px")
       .style("text-align", "center");
 
+    let timeFormate = d3.time.format('%a, %b %d %Y');
+
     svgContainer.selectAll(shape)
       .data(graphData)
       .on("mouseover", function(d) {
         div.style("left", d3.event.pageX+10+"px");
         div.style("top", d3.event.pageY-25+"px");
         div.style("display", "inline-block");
-        div.html((d.x)+" - "+(d.y));
         div.style("font-weight","bold");
         d3.select(this)
-        	.attr("fill", "red");
+        .attr("fill", "red");
+
+        GraphApi.CONSTANT.GraphSign == "TIME" ? div.html((timeFormate(d.x))+" - "+(d.y))
+          : div.html( (d.x)+" - "+(d.y));
       })
       .on("mouseout", function() {
         div.style("display", "none");
