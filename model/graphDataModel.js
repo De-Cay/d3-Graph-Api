@@ -6,12 +6,21 @@ GraphApi.DataModel = {
 
   formatData(jsonData){
 
-    let xkey = Object.keys(jsonData[0])[0];
+    let xKey = Object.keys(jsonData[0])[0];
     let yKey = Object.keys(jsonData[0])[1];
     this.CONSTANT.CoordinateLabel = {
-      'abcissa': xkey.toUpperCase(),
+      'abcissa': xKey.toUpperCase(),
       'ordinate': yKey.toUpperCase()
     };
+
+    if (this.CONSTANT.CoordinateLabel.abcissa == "DATE") {
+      return this.getTimeFormattedData(jsonData, xKey, yKey);
+    }else{
+      return this.getNormalFormattedData(jsonData, xKey, yKey);
+    }
+  },
+
+  getTimeFormattedData(jsonData, xKey, yKey){
 
     let parseDate = d3.time.format("%d-%b-%y").parse;
 
@@ -19,7 +28,21 @@ GraphApi.DataModel = {
     for (let ii = 0, n = jsonData.length; ii < n; ii++){
       let element = jsonData[ii];
       let newObj = {
-        'x': element[xkey],
+        'x': parseDate(element[xKey]),
+        'y': element[yKey]
+      };
+      formattedData.push(newObj);
+    }
+    return formattedData;
+  },
+
+  getNormalFormattedData(jsonData, xKey, yKey){
+
+    let formattedData = [];
+    for (let ii = 0, n = jsonData.length; ii < n; ii++){
+      let element = jsonData[ii];
+      let newObj = {
+        'x': element[xKey],
         'y': element[yKey]
       };
       formattedData.push(newObj);

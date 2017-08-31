@@ -6,5 +6,7 @@ GraphApi.CONSTANT = {
 
   Dimension: {'height': 480, 'width': 640},
 
-  CoordinateLabel: {}
+  CoordinateLabel: {},
+
+  GraphSign: "NORMAL",
 }

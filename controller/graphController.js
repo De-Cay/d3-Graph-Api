@@ -31,13 +31,6 @@ GraphApi.Controller = {
       }));
   },
 
-  getTimeXScale(graphData, graphWidth){
-
-    let GRAPH_MARGIN = this.CONSTANT.Margin;
-    return d3.time.scale().range([GRAPH_MARGIN.left, graphWidth - GRAPH_MARGIN.right])
-      .domain(d3.extent(graphData, function(d) { return d.x; }))
-  },
-
   getLinearXScale(graphData, graphWidth){
 
     let GRAPH_MARGIN = this.CONSTANT.Margin;
@@ -65,6 +58,13 @@ GraphApi.Controller = {
       ]);
   },
 
+  setGraphSign(graphType){
+
+    if(graphType.indexOf("TIME") != -1){
+      this.CONSTANT.GraphSign = "TIME";
+    }
+  },
+
   initialize: function(graphParam) {
 
     let graphData = GraphApi.DataModel.formatData(graphParam.jsonData);
@@ -74,7 +74,10 @@ GraphApi.Controller = {
     let ordinateLabel = Object.keys(graphParam.jsonData[0])[1];
 
     let graphId = graphParam.graphId;
+
     let graphType = graphParam.graphType.toUpperCase();
+    this.setGraphSign(graphType);
+
     let graphHeight = parseInt(graphParam.graphHeight) ? parseInt(graphParam.graphHeight) : GRAPH_DIMENSION.height;
     let graphWidth = parseInt(graphParam.graphWidth) ? parseInt(graphParam.graphWidth) : GRAPH_DIMENSION.width;
 
@@ -98,11 +101,19 @@ GraphApi.Controller = {
         GraphApi.View.renderLineGraph(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale);
         break;
 
-      case "PIE":
-        GraphApi.View.renderPieGraph(svgContainer, graphData);
+      case "TIME-LINE":
+        yScale = this.getLinearYScale(graphData, graphHeight);
+        xScale = this.getOrdinalXScale(graphData, graphWidth);
+        GraphApi.View.renderAxes(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale);
+        GraphApi.View.renderLineGraph(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale);
         break;
 
-      case "DONUT":
+      case "TIME-BAR":
+        yScale = this.getLinearYScale(graphData, graphHeight);
+        xScale = this.getOrdinalXScale(graphData, graphWidth);
+        GraphApi.View.renderAxes(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale);
+        GraphApi.View.renderBarGraph(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale);
+        break;
 
       default:
 

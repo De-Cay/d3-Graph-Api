@@ -19,13 +19,14 @@
 <body>
   <div class="graph-container" id="bar-chart"></div>
   <div class="graph-container" id="line-chart"></div>
-  <div class="graph-container" id="time-chart"></div>
+  <div class="graph-container" id="time-line"></div>
+  <div class="graph-container" id="time-bar"></div>
   <script>
     GraphApi.Controller.initialize({
       "graphType": "Bar",
       "graphId": "bar-chart",
-      "graphHeight": 700,
-      "graphWidth": 1200,
+      "graphHeight": 'auto',
+      "graphWidth": '1000',
       "jsonData": [
         {'letter': 'A','frequency': 5}, {'letter': 'B','frequency': 20}, {'letter': 'C','frequency': 10}, {'letter': 'D','frequency': 40},
         {'letter': 'E','frequency': 29}, {'letter': 'F','frequency': 60}, {'letter': 'G','frequency': 70}, {'letter': 'H','frequency': 35},
@@ -39,29 +40,39 @@
     GraphApi.Controller.initialize({
       "graphType": "Line",
       "graphId": "line-chart",
-      "graphHeight": 700,
-      "graphWidth": 1200,
+      "graphHeight": 'auto',
+      "graphWidth": 'auto',
       "jsonData": [
         {'day': 1,'run': 5}, {'day': 2,'run': 20}, {'day': 3,'run': 10}, {'day': 4,'run': 40},
         {'day': 5,'run': 100}, {'day': 6,'run': 60}, {'day': 7,'run': 60}, {'day': 8,'run': 95}
       ]
     });
 
-    // GraphApi.Controller.initialize({
-    //   "graphType": "Line",
-    //   "graphId": "time-chart",
-    //   "graphHeight": 700,
-    //   "graphWidth": 1200,
-    //   "jsonData": [
-    //     {"time": "1-May-12","frequency": "58.13"}, {"time": "30-Apr-12", "frequency": "50"},
-    //     {"time": "27-Apr-12", "frequency": "67.00"}, {"time": "26-Apr-12","frequency": "89.70"},
-    //     {"time": "25-Apr-12", "frequency": "99.00"}, {"time": "24-Apr-12","frequency": "130.28"},
-    //     {"time": "23-Apr-12","frequency": "166.70"}, {"time": "20-Apr-12", "frequency": "234.98"},
-    //     {"time": "19-Apr-12","frequency": "345.44"}, {"time": "18-Apr-12", "frequency": "443.34"},
-    //     {"time": "17-Apr-12","frequency": "543.70"}, {"time": "16-Apr-12","frequency": "580.13"},
-    //     {"time": "13-Apr-12", "frequency": "605.23"}, {"time": "12-Apr-12", "frequency": "622.77"},
-    //   ]
-    // });
+    GraphApi.Controller.initialize({
+      "graphType": "Time-line",
+      "graphId": "time-line",
+      "graphHeight": 'auto',
+      "graphWidth": 'auto',
+      "jsonData": [
+        {'date': "18-Apr-12",'run': 10}, {'date': "20-Apr-12",'run': 40},
+        {'date': "1-May-12",'run': 95}, {'date': "29-Apr-12",'run': 60},
+        {'date': "12-Apr-12",'run': 5}, {'date': "16-Apr-12",'run': 20},
+        {'date': "22-Apr-12",'run': 100}, {'date': "25-Apr-12",'run': 60},
+      ]
+    });
+
+    GraphApi.Controller.initialize({
+      "graphType": "Time-bar",
+      "graphId": "time-bar",
+      "graphHeight": 'auto',
+      "graphWidth": 'auto',
+      "jsonData": [
+        {'date': "18-Apr-12",'run': 10}, {'date': "20-Apr-12",'run': 40},
+        {'date': "1-May-12",'run': 95}, {'date': "29-Apr-12",'run': 60},
+        {'date': "12-Apr-12",'run': 5}, {'date': "16-Apr-12",'run': 20},
+        {'date': "22-Apr-12",'run': 100}, {'date': "25-Apr-12",'run': 60},
+      ]
+    });
   </script>
 </body>
 </html>

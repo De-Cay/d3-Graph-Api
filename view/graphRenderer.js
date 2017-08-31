@@ -15,9 +15,17 @@ GraphApi.View = {
       .ticks(10)
       .orient("left");
 
-    let xAxis = d3.svg.axis()
+    let xAxis = '';
+    if(this.CONSTANT.GraphSign == "TIME"){
+      xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient("bottom")
+      .tickFormat(d3.time.format("%b-%d"));
+    }else {
+      xAxis = d3.svg.axis()
       .scale(xScale)
       .orient("bottom");
+    }
 
     svgContainer
       .append("g")
