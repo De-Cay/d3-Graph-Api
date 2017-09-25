@@ -22,7 +22,11 @@
   <div class="graph-container" id="time-line"></div>
   <div class="graph-container" id="time-bar"></div>
   <script>
-    GraphApi.Controller.initialize({
+
+
+    let barGraphController = new GraphApi.Controller();
+
+    barGraphController.createGraph({
       "graphType": "Bar",
       "graphId": "bar-chart",
       "graphHeight": '700',
@@ -37,7 +41,10 @@
         {'letter': 'Y','frequency': 22}, {'letter': 'Z','frequency': 100}
       ]
     });
-    GraphApi.Controller.initialize({
+
+
+    let lineGraphController = new GraphApi.Controller();
+    lineGraphController.createGraph({
       "graphType": "Line",
       "graphId": "line-chart",
       "graphHeight": '700',
@@ -48,7 +55,9 @@
       ]
     });
 
-    GraphApi.Controller.initialize({
+
+    let timeLineGraphController = new GraphApi.Controller();
+    timeLineGraphController.createGraph({
       "graphType": "Time-line",
       "graphId": "time-line",
       "graphHeight": '700',
@@ -61,7 +70,8 @@
       ]
     });
 
-    GraphApi.Controller.initialize({
+    let timeBarGraphController = new GraphApi.Controller();
+    timeBarGraphController.createGraph({
       "graphType": "Time-bar",
       "graphId": "time-bar",
       "graphHeight": '700',

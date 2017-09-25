@@ -1,26 +1,24 @@
 var GraphApi = GraphApi || {};
 
-GraphApi.DataModel = {
+GraphApi.DataModel = function() {
 
-  CONSTANT: GraphApi.CONSTANT,
-
-  formatData(jsonData){
+  let _formatData = function(jsonData){
 
     let xKey = Object.keys(jsonData[0])[0];
     let yKey = Object.keys(jsonData[0])[1];
-    this.CONSTANT.CoordinateLabel = {
+    GraphApi.CONSTANT.CoordinateLabel = {
       'abcissa': xKey.toUpperCase(),
       'ordinate': yKey.toUpperCase()
     };
 
-    if (this.CONSTANT.CoordinateLabel.abcissa == "DATE") {
-      return this.getTimeFormattedData(jsonData, xKey, yKey);
+    if (GraphApi.CONSTANT.CoordinateLabel.abcissa == "DATE") {
+      return _getTimeFormattedData(jsonData, xKey, yKey);
     }else{
-      return this.getNormalFormattedData(jsonData, xKey, yKey);
+      return _getNormalFormattedData(jsonData, xKey, yKey);
     }
-  },
+  };
 
-  getTimeFormattedData(jsonData, xKey, yKey){
+  let _getTimeFormattedData = function(jsonData, xKey, yKey){
 
     let parseDate = d3.time.format("%d-%b-%y").parse;
 
@@ -29,24 +27,32 @@ GraphApi.DataModel = {
       let element = jsonData[ii];
       let newObj = {
         'x': parseDate(element[xKey]),
-        'y': element[yKey]
+        'y': parseInt(element[yKey])
       };
       formattedData.push(newObj);
     }
     return formattedData;
-  },
+  };
 
-  getNormalFormattedData(jsonData, xKey, yKey){
+  let _getNormalFormattedData = function(jsonData, xKey, yKey){
 
     let formattedData = [];
     for (let ii = 0, n = jsonData.length; ii < n; ii++){
       let element = jsonData[ii];
       let newObj = {
         'x': element[xKey],
-        'y': element[yKey]
+        'y': parseInt(element[yKey])
       };
       formattedData.push(newObj);
     }
     return formattedData;
-  }
+  };
+
+  let formatData = function(jsonData){
+    return _formatData(jsonData);
+  };
+
+  return {
+    formatData: formatData
+  };
 }

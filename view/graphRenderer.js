@@ -1,14 +1,12 @@
 var GraphApi = GraphApi || {};
 
-GraphApi.View = {
+GraphApi.View = function (){
 
-  CONSTANT: GraphApi.CONSTANT,
+  let _renderAxes = function(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign){
 
-  renderAxes(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale){
+    let GRAPH_MARGIN = GraphApi.CONSTANT.Margin;
 
-    let GRAPH_MARGIN = this.CONSTANT.Margin;
-
-    let COORDINATE_LABEL = this.CONSTANT.CoordinateLabel;
+    let COORDINATE_LABEL = GraphApi.CONSTANT.CoordinateLabel;
 
     let yAxis = d3.svg.axis()
       .scale(yScale)
@@ -16,7 +14,7 @@ GraphApi.View = {
       .orient("left");
 
     let xAxis = '';
-    if(this.CONSTANT.GraphSign == "TIME"){
+    if(graphSign == "TIME"){
       xAxis = d3.svg.axis()
       .scale(xScale)
       .orient("bottom")
@@ -34,6 +32,14 @@ GraphApi.View = {
         .attr("fill", "none")
         .attr("stroke", "#cccccc")
         .attr("stroke-width", "1.5");
+
+        //NOTE: rotate labels on x-axis
+        //.selectAll("text")
+        //  .attr("y", 0)
+        //  .attr("x", 9)
+        //  .attr("dy", ".35em")
+        //  .attr("transform", "rotate(90)")
+        //  .style("text-anchor", "start");
 
     svgContainer
       .append("g")
@@ -63,11 +69,11 @@ GraphApi.View = {
       .text(COORDINATE_LABEL.abcissa)
         .attr("fill", "grey")
         .attr("font-family", "Helvetica Neue");
-  },
+  };
 
-  renderBarGraph: function(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale){
+  let _renderBarGraph = function(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign){
 
-    let GRAPH_MARGIN = this.CONSTANT.Margin;
+    let GRAPH_MARGIN = GraphApi.CONSTANT.Margin;
 
     svgContainer.selectAll("rect")
       .data(graphData)
@@ -93,7 +99,7 @@ GraphApi.View = {
         return ((graphHeight - GRAPH_MARGIN.bottom) - yScale(d.y));
       });
 
-    this.showToolTip(svgContainer, graphData, "rect");
+    _showToolTip(svgContainer, graphData, "rect");
 
     svgContainer.selectAll(".text")
   	  .data(graphData)
@@ -101,15 +107,15 @@ GraphApi.View = {
   	  .append("text")
   	  .attr("class","label")
       .attr("text-anchor", "middle")
-      .attr("fill", "white")
+      .attr("fill", "black")
       .attr("font-family", "Helvetica Neue")
   	  .attr("x", (function(d) { return xScale(d.x) + xScale.rangeBand() / 2 ;}))
-  	  .attr("y", function(d) { return yScale(d.y) + 5; })
+  	  .attr("y", function(d) { return yScale(d.y) - 20 })
   	  .attr("dy", ".75em")
   	  .text(function(d) { return d.y; });
-  },
+  };
 
-  renderLineGraph: function(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale){
+  let _renderLineGraph = function(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign){
 
     let lineFunc = d3.svg.line()
       .x(function(d) {
@@ -146,11 +152,11 @@ GraphApi.View = {
       .attr("cx", function(d) { return xScale(d.x); })
       .attr("cy", function(d) { return yScale(d.y); })
 
-    this.showToolTip(svgContainer, graphData, "circle")
+    _showToolTip(svgContainer, graphData, "circle")
 
-  },
+  };
 
-  showToolTip(svgContainer, graphData, shape){
+  let _showToolTip = function(svgContainer, graphData, shape, graphSign){
 
     let div = d3.select("body").append("div")
       .attr("class", "toolTip")
@@ -181,7 +187,7 @@ GraphApi.View = {
         d3.select(this)
         .attr("fill", "red");
 
-        GraphApi.CONSTANT.GraphSign == "TIME" ? div.html((timeFormate(d.x))+" - "+(d.y))
+        graphSign == "TIME" ? div.html((timeFormate(d.x))+" - "+(d.y))
           : div.html( (d.x)+" - "+(d.y));
       })
       .on("mouseout", function() {
@@ -189,5 +195,23 @@ GraphApi.View = {
         d3.select(this)
         	.attr("fill", "steelblue");
       })
-  }
+  };
+
+  let renderLineGraph = function(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign){
+    return _renderLineGraph(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign);
+  };
+
+  let renderBarGraph = function(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign){
+    return _renderBarGraph(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign);
+  };
+
+  let renderAxes = function(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign){
+    return _renderAxes(svgContainer, graphData, graphWidth, graphHeight, xScale, yScale, graphSign);
+  };
+
+  return{
+    renderLineGraph: renderLineGraph,
+    renderBarGraph: renderBarGraph,
+    renderAxes: renderAxes
+  };
 }
