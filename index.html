@@ -1,30 +1,28 @@
-<!DOCType html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
   <title>Graph Library</title>
   <style>
     .graph-container{
       border: 1px solid grey;
     }
   </style>
-
-  <script src="lib/jquery.min.js"></script>
-  <script src="lib/d3.min.v3.js"></script>
-  <script src="config/graph-constant.js"></script>
-  <script src="model/graph-data-model.js"></script>
-  <script src="controller/graph-controller.js"></script>
-  <script src="view/graph-renderer.js"></script>
-
 </head>
 <body>
   <div class="graph-container" id="bar-chart"></div>
   <div class="graph-container" id="line-chart"></div>
   <div class="graph-container" id="time-line"></div>
   <div class="graph-container" id="time-bar"></div>
+  <script src="lib/d3.min.v3.js"></script>
+  <script src="config/graph-constant.js"></script>
+  <script src="model/graph-data-model.js"></script>
+  <script src="controller/graph-controller.js"></script>
+  <script src="view/graph-renderer.js"></script>
   <script>
 
 
-    let barGraphController = new GraphApi.Controller();
+    let barGraphController = GraphApi.Controller();
 
     barGraphController.createGraph({
       "graphType": "Bar",
@@ -43,7 +41,7 @@
     });
 
 
-    let lineGraphController = new GraphApi.Controller();
+    let lineGraphController = GraphApi.Controller();
     lineGraphController.createGraph({
       "graphType": "Line",
       "graphId": "line-chart",
@@ -56,7 +54,7 @@
     });
 
 
-    let timeLineGraphController = new GraphApi.Controller();
+    let timeLineGraphController = GraphApi.Controller();
     timeLineGraphController.createGraph({
       "graphType": "Time-line",
       "graphId": "time-line",
@@ -70,7 +68,7 @@
       ]
     });
 
-    let timeBarGraphController = new GraphApi.Controller();
+    let timeBarGraphController = GraphApi.Controller();
     timeBarGraphController.createGraph({
       "graphType": "Time-bar",
       "graphId": "time-bar",

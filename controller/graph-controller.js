@@ -4,14 +4,13 @@ GraphApi.Controller = function(){
 
   let _setGraphDimension = function(graphId, graphHeight, graphWidth) {
 
-    let $graphElement = $("#" + graphId);
-    $graphElement.height(graphHeight);
-    $graphElement.width(graphWidth);
+    let graphEle = document.getElementById(graphId);
+    graphEle.style.height = graphHeight;
+    graphEle.style.width = graphWidth;
   };
 
   let _getSVGContainer = function(graphId, graphHeight, graphWidth){
 
-    $("#" + graphId).empty();
     return d3.select("#" + graphId)
       .append("svg")
       .attr("height", graphHeight)
