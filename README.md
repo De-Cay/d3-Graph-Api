@@ -10,7 +10,7 @@ It needs 5 parameters to draw graphs **:**
 - jsonData, JSON data, an array of objects with two keys, where *first key* denotes **abcissa** and *second key* denotes **ordinate**.
 
 ```javascript
-let newGraphLayout = new graphController();
+let newGraphLayout = GraphApi.graphController();
 newGraphLayout.createGraph({
   graphType: "Bar",
   garphId: "htmlId",
