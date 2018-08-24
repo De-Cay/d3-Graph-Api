@@ -86,7 +86,7 @@ GraphApi.Controller = function(){
 
     let yScale = '', xScale = '';
 
-    var view = new GraphApi.View();
+    var view = GraphApi.View();
 
     switch (graphType) {
       case "BAR":
